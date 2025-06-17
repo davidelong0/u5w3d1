@@ -1,5 +1,6 @@
 package it.epicode.u5w3d1.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -33,13 +34,14 @@ public class Dipendente implements UserDetails {
     private String email;
 
     @NotEmpty
+    @JsonIgnore
     private String password;
 
     private String immagineProfiloUrl;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList(); // Nessun ruolo per ora
+        return Collections.emptyList();
     }
 
     @Override
@@ -59,6 +61,7 @@ public class Dipendente implements UserDetails {
     @Override
     public boolean isEnabled() { return true; }
 }
+
 
 
 

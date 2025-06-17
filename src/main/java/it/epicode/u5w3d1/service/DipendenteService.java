@@ -1,6 +1,7 @@
 package it.epicode.u5w3d1.service;
 
 import it.epicode.u5w3d1.dto.DipendenteDTO;
+import it.epicode.u5w3d1.exception.BadRequestException;
 import it.epicode.u5w3d1.exception.NotFoundException;
 import it.epicode.u5w3d1.model.Dipendente;
 import it.epicode.u5w3d1.repository.DipendenteRepository;
@@ -19,6 +20,11 @@ public class DipendenteService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
 
     public Dipendente crea(DipendenteDTO dto) {
+        // Controllo email duplicata
+        if (repo.findByEmail(dto.getEmail()).isPresent()) {
+            throw new BadRequestException("Email già registrata: " + dto.getEmail());
+        }
+
         Dipendente d = Dipendente.builder()
                 .nome(dto.getNome())
                 .cognome(dto.getCognome())
